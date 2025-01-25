@@ -1,0 +1,118 @@
+{% extends 'base/dashboard_base.html' %}
+{% load static %}
+
+{% block style %}
+<style>
+    .star-box{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+    }
+
+    .star {
+        font-size: 2rem;
+        cursor: pointer;
+        color: #b9bcb6;
+    }
+
+    .one {
+        color: #F3C623;
+    }
+
+    .two {
+        color: #F3C623;
+    }
+
+    .three {
+        color: #F3C623;
+    }
+
+    .four {
+        color: #F3C623;
+    }
+
+    .five {
+        color: #F3C623;
+    }
+</style>
+{% endblock %}
+
+{% block title %}
+نظر دهی
+{% endblock %}
+
+{% block breadcrumb %}
+<div class="breadcrumb">
+    <ul>
+        <li><a href="{% url 'dashboard' %}">داشبورد</a></li>
+        <li><a href="{% url 'patient_consultation_list' %}">مشاوره های من</a></li>
+        <li><a href="#" class="is-active">نظر دهی</a></li>
+    </ul>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="main-content  ">
+    <div class="user-info bg-white padding-30 font-size-13">
+        <form method="post"> {% csrf_token %}
+            {% if form.non_field_errors %}
+            {% for error in form.non_field_errors %}
+            <p class="error">{{ error }}</p>
+            {% endfor %}
+            {% endif %}
+            <label for="{{ form.star.id_for_label }}">امتیاز شما:</label>
+            <div class="star-box" dir="ltr">
+                <span onclick="gfg(1)" class="star">★
+                </span>
+                <span onclick="gfg(2)" class="star">★
+                </span>
+                <span onclick="gfg(3)" class="star">★
+                </span>
+                <span onclick="gfg(4)" class="star">★
+                </span>
+                <span onclick="gfg(5)" class="star">★
+                </span>
+                <input type="hidden" name="star" id="hidden">
+            </div>
+            <label for="{{ form.content.id_for_label }}">نظر شما:</label>
+            <textarea name="content"></textarea>
+            {% if form.content.errors %}
+            {% for error in form.content.errors %}
+            <p class="error">{{ error }}</p>
+            {% endfor %}
+            {% endif %}
+            <br>
+            <br>
+            <button class="btn btn-netcopy_net">نظر دهی</button>
+        </form>
+    </div>
+</div>
+
+<script>
+
+    let stars = document.getElementsByClassName("star");
+    let output = document.getElementById("hidden");
+
+    function gfg(n) {
+        remove();
+        for (let i = 0; i < n; i++) {
+            if (n == 1) cls = "one";
+            else if (n == 2) cls = "two";
+            else if (n == 3) cls = "three";
+            else if (n == 4) cls = "four";
+            else if (n == 5) cls = "five";
+            stars[i].className = "star " + cls;
+        }
+        output.value = n;
+    }
+
+    function remove() {
+        let i = 0;
+        while (i < 5) {
+            stars[i].className = "star";
+            i++;
+        }
+    }
+</script>
+{% endblock %}

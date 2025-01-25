@@ -1,0 +1,32 @@
+{% extends 'base/dashboard_base.html' %}
+{% load static %}
+
+{% block title %}
+حذف مشاوره
+{% endblock %}
+
+{% block breadcrumb %}
+<div class="breadcrumb">
+    <ul>
+        <li><a href="{% url 'dashboard' %}">داشبورد</a></li>
+        <li><a href="{% url 'doctor_consultation_list' %}">مشاوره های من</a></li>
+        <li><a href="{% url 'delete_consultation' object.id %}" class="is-active">حذف مشاوره</a></li>
+    </ul>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="main-content">
+    <div class="user-info bg-white padding-30 font-size-13">
+        <div>
+            <h3>آیا از حذف مشاوره با شناسه {{ object.id }} اطمینان دارید؟</h3>
+            <form method="post"> {% csrf_token %}
+                <br>
+                <br>
+                <button class="btn btn-netcopy_net" style="margin-left: 10px;">حذف مشاوره</button>
+                <a href="{% url 'doctor_consultation_list' %}">بیخیال!</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

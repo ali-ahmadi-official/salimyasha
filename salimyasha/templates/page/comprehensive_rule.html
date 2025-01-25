@@ -1,0 +1,33 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}
+قوانین جامع
+{% endblock %}
+
+{% block rule %}
+<div class="container-fluid py-5">
+    <div class="container">
+        <div class="title">
+            <i class="bi bi-list"></i>
+            <h3>قوانین جامع</h3>
+        </div>
+        {% for comprehensive_rule in comprehensive_rules %}
+        <div class="article">
+            <div class="article-num">
+                <i class="bi bi-x"></i>
+                <h5>ماده {{ comprehensive_rule.id }}: {{ comprehensive_rule.article }}</h5>
+            </div>
+            <div class="paragraphs">
+                {% for paragraph in comprehensive_rule.pcr.all %}
+                <div class="paragraph">
+                    <i class="bi bi-circle"></i>
+                    <p>{{ paragraph.content }}</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

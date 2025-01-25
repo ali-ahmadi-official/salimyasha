@@ -1,0 +1,76 @@
+{% extends 'base/dashboard_base.html' %}
+{% load static %}
+
+{% block title %}
+مشاوره های من
+{% endblock %}
+
+{% block breadcrumb %}
+<div class="breadcrumb">
+    <ul>
+        <li><a href="{% url 'dashboard' %}">داشبورد</a></li>
+        <li><a href="{% url 'patient_consultation_list' %}" class="is-active">مشاوره های من</a></li>
+    </ul>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="main-content">
+    <div class="table__box">
+        <table class="table">
+            <thead role="rowgroup">
+                <tr role="row" class="title-row">
+                    <th>شناسه</th>
+                    <th>تاریخ مشاوره</th>
+                    <th>ساعت شروع گفتگو</th>
+                    <th>ساعت پایان گفتگو</th>
+                    <th>تخصص مشاوره</th>
+                    <th>نام پزشک</th>
+                    <th>وضعیت</th>
+                    <th>عملیات</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for patient_consultation in patient_consultations %}
+                <tr role="row">
+                    <td>{{ patient_consultation.id }}</td>
+                    <td>{{ patient_consultation.date }}</td>
+                    <td>{{ patient_consultation.start_time }}</td>
+                    <td>{{ patient_consultation.end_time }}</td>
+                    <td>{{ patient_consultation.doctor.doctorprofile.get_expertise_display }}</td>
+                    <td>{{ patient_consultation.doctor.get_full_name }}</td>
+                    <td>{{ patient_consultation.status }}</td>
+                    {% if patient_consultation.status == 'رزرو شده' %}
+                    {% if patient_consultation.allowed %}
+                    <td>
+                        <a href="{% url 'chat' patient_consultation.id %}" style="color: blue; border: 2px solid blue; border-radius: 3px; padding: 3px;">رفتن به چت پزشک</a>
+                    </td>
+                    {% else %}
+                    {% if patient_consultation.cancle %}
+                    <td>
+                        <a href="{% url 'cancle_consultation' patient_consultation.id %}" style="color: red; border: 2px solid red; border-radius: 3px; padding: 3px;">لغو مشاوره</a>
+                    </td>
+                    {% else %}
+                    <td>
+                        ---
+                    </td>
+                    {% endif %}
+                    {% endif %}
+                    {% else %}
+                    {% if patient_consultation.consultationcomment %}
+                    <td>
+                        <a href="{% url 'chat' patient_consultation.id %}" style="color: blue; border: 2px solid blue; border-radius: 3px; padding: 3px;">رفتن به چت پزشک</a>
+                    </td>
+                    {% else %}
+                    <td>
+                        <a href="{% url 'add_consultation_comment' patient_consultation.id %}" style="color: green; border: 2px solid green; border-radius: 3px; padding: 3px;">نظر دهی</a>
+                    </td>
+                    {% endif %}
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

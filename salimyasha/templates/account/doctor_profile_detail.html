@@ -1,0 +1,132 @@
+{% extends 'base/dashboard_base.html' %}
+{% load static %}
+
+{% block title %}
+پروفایل من
+{% endblock %}
+
+{% block breadcrumb %}
+<div class="breadcrumb">
+    <ul>
+        <li><a href="{% url 'dashboard' %}">داشبورد</a></li>
+        <li><a href="{% url 'doctor_profile' user.doctorprofile.id %}" class="is-active">پروفایل من</a></li>
+    </ul>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="main-content">
+    <div class="user-info bg-white padding-30 font-size-13">
+        <div>
+            {% if object.account_verification %}
+            <h3>اطلاعات هویتی <span style="color: green;">(تایید شده)</span>:</h3>
+            {% else %}
+            <h3>اطلاعات هویتی <span style="color: red;">(تایید نشده)</span>:</h3>
+            {% endif %}
+            <div class="profile__info border text-center">
+                <div class="avatar__img">
+                    {% if user.profile_image %}
+                    <img src="{{ user.profile_image.url }}" class="avatar___img" id="profile_image_preview">
+                    {% else %}
+                    <img src="{% static 'img/profile.jpg' %}" class="avatar___img" id="profile_image_preview">
+                    {% endif %}
+                </div>
+                <span class="profile__name">{{ user.get_full_name }}</span>
+            </div>
+            <label>نام:</label>
+            <input class="text" value="{{ user.first_name }}" readonly>
+            <label>نام خانوادگی:</label>
+            <input class="text" value="{{ user.last_name }}" readonly>
+            <label>نام پدر <span style="color: blue;">(منتشر نمی شود)</span>:</label>
+            <input class="text" value="{{ object.father_name }}" readonly>
+            <label>شهر / استان:</label>
+            <input class="text" value="{{ object.get_city_display }}" readonly>
+            <label>تاریخ تولد <span style="color: blue;">(منتشر نمی شود)</span>:</label>
+            <input class="text" value="{{ object.birth_date }}" readonly>
+            <label>کد ملی <span style="color: blue;">(منتشر نمی شود)</span>:</label>
+            <input class="text" value="{{ object.national_id }}" readonly>
+            <label>شماره نظام پزشکی:</label>
+            <input class="text" value="{{ object.medical_system_number }}" readonly>
+            <br>
+            <br>
+            <a class="btn btn-netcopy_net" href="{% url 'edit_profile' %}" style="color: white;">ویرایش پروفایل</a>
+        </div>
+    </div>
+
+    <div class="user-info bg-white padding-30 font-size-13">
+        <div>
+            <h3>درباره شما:</h3>
+            <br>
+            <label>تخصص:</label>
+            <input class="text" value="{{ object.get_expertise_display }}" readonly>
+            <label>بیوگرافی:</label>
+            <textarea class="text" readonly>{{ object.bio }}</textarea>
+            <br>
+            <br>
+            <a class="btn btn-netcopy_net" href="{% url 'edit_bio' user.doctorprofile.id %}" style="color: white;">ویرایش درباره من</a>
+        </div>
+    </div>
+
+    {% if user.clinic %}
+
+    <div class="user-info bg-white padding-30 font-size-13">
+        <div>
+            <h3>مطب شما:</h3>
+            <br>
+            <label>نام مطب:</label>
+            <input class="text" value="{{ user.clinic.name }}" readonly>
+            <label>لوکیشن:</label>
+            <div class="map">
+                {% if 'iframe' in user.clinic.location %}
+                {{ user.clinic.location | safe }}
+                {% else %}
+                لوکیشن بارگزاری نشده است.
+                {% endif %}
+            </div>
+            <label>آدرس مطب:</label>
+            <input class="text" value="{{ user.clinic.address }}" readonly>
+            <br>
+            <br>
+            <a class="btn btn-netcopy_net" href="{% url 'edit_clinic' user.clinic.id %}" style="color: white;">ویرایش مطب</a>
+        </div>
+    </div>
+
+    {% else %}
+
+    <div class="user-info bg-white padding-30 font-size-13">
+        <div>
+            <h3>مشخصات مطب معرفی نشده است!</h3>
+            <br>
+            <a class="btn btn-netcopy_net" href="{% url 'add_clinic' %}" style="color: white;">افزودن مطب</a>
+        </div>
+    </div>
+
+    {% endif %}
+
+    <div class="user-info bg-white padding-30 font-size-13">
+        <div>
+            <h3>اطلاعات کاربری <span style="color: blue;">(منتشر نمی شود)</span>:</h3>
+            <br>
+            <label>نام کاربری:</label>
+            <input class="text" value="{{ user.username }}" readonly>
+            {% if user.phone_number_verification %}
+            <label>شماره تلفن <span style="color: green;">(تایید شده)</span>:</label>
+            <input class="text" value="{{ user.phone_number }}" readonly>
+            {% else %}
+            <label>شماره تلفن <span style="color: red;">(تایید نشده)</span>:</label>
+            <input class="text" value="{{ user.phone_number }}" readonly>
+            {% endif %}
+            {% if user.email %}
+            <label>ایمیل:</label>
+            <input class="text" value="{{ user.email }}" readonly>
+            {% else %}
+            <label>ایمیل:</label>
+            <input class="text" value="ایمیلی وارد نشده است!" readonly>
+            {% endif %}
+            <br>
+            <br>
+            <a class="btn btn-netcopy_net" href="{% url 'edit_user' user.id %}" style="color: white;">ویرایش اطلاعات کاربری</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

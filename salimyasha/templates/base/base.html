@@ -1,0 +1,179 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    
+    <link href="{% static 'img/BB.png' %}" rel="icon">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="{% static 'lib/owlcarousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
+    <link href="{% static 'lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css' %}" rel="stylesheet" />
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    {% block style %}
+
+    {% endblock %}
+    <title>
+        {% block title %}
+
+        {% endblock %}
+    </title>
+</head>
+
+<body>
+    <div class="container-fluid py-2 border-bottom d-none d-lg-block">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 text-end mb-2 mb-lg-0">
+                    <div class="d-inline-flex align-items-center">
+                        <a class="text-decoration-none text-body ps-3" href="#"><i class="bi bi-telephone ms-2"></i>۰۹۱۴۴۹۴۷۳۱۰</a>
+                        <a href="{% url 'contact' %}" style="margin-right: 30px;">If you are in another country click here</a>
+                    </div>
+                </div>
+                <div class="col-md-6 text-center text-lg-start">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid sticky-top bg-white shadow-sm" dir="ltr">
+        <div class="container">
+            <nav class="navbar navbar-expand-lg bg-white navbar-light py-3 py-lg-0">
+                <a href="{% url 'home' %}" class="navbar-brand" style="margin-right: 0; margin-left: 16px;" dir="rtl">
+                    <h1 class="m-0 text-uppercase" style="color: #2a7de3;"><img src="{% static 'img/BB.png' %}" alt="لوگو" style="width: 60px; height: 60px; margin-left: 10px;">سالیم یاشا</h1>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                    <div class="navbar-nav ms-auto py-0" dir="rtl">
+                        <a href="{% url 'home' %}" id="a" class="nav-item nav-link {% if request.path == '/' %} active {% endif %}">خانه</a>
+                        <a href="{% url 'about' %}" id="a" class="nav-item nav-link {% if request.path == '/about/' %} active {% endif %}">درباره ما</a>
+                        <a href="{% url 'services' %}" id="a" class="nav-item nav-link {% if request.path == '/services/' %} active {% endif %}">خدمات</a>
+                        <a href="{% url 'doctors' %}" id="a" class="nav-item nav-link {% if request.path == '/doctors/' %} active {% endif %}">پزشکان</a>
+                        <a href="{% url 'contact_fa' %}" id="a" class="nav-item nav-link {% if request.path == '/contact-fa/' or request.path == '/contact/' %} active {% endif %}">ارتباط با ما</a>
+                        {% if user.is_authenticated and user.user_type %}
+                        <a href="{% url 'dashboard' %}" id="a" class="nav-item nav-link">داشبورد</a>    
+                        {% elif user.is_authenticated and not user.user_type %}
+                        <a href="{% url 'admin:index' %}" id="a" class="nav-item nav-link">داشبورد مدیریت</a>                         
+                        {% else %}
+                        <div class="nav-item dropdown">
+                            <a href="#" id="a" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">ورود / ثبت نام</a>
+                            <div class="dropdown-menu m-0">
+                                <a href="{% url 'patient_login' %}" id="a" class="dropdown-item">ورود بیماران</a>
+                                <a href="{% url 'doctor_login' %}" id="a" class="dropdown-item">ورود پزشکان</a>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    {% block content %}
+
+    {% endblock %}
+
+    {% block hero %}
+
+    {% endblock %}
+
+    {% block about %}
+
+    {% endblock %}
+
+    {% block services %}
+
+    {% endblock %}
+
+    {% block team %}
+
+    {% endblock %}
+
+    {% block search %}
+
+    {% endblock %}
+
+    {% block testimonial %}
+
+    {% endblock %}
+
+    {% block contact %}
+
+    {% endblock %}
+
+    {% block result %}
+
+    {% endblock %}
+
+    {% block appointment %}
+
+    {% endblock %}
+
+    {% block rule %}
+
+    {% endblock %}
+
+    {% block FAQ %}
+
+    {% endblock %}
+
+    <div class="container-fluid bg-dark text-light mt-5 py-5">
+        <div class="container py-5">
+            <div class="row g-5">
+                <div class="col-lg-3 col-md-6">
+                    <h4 class="d-inline-block text-primary text-uppercase border-bottom border-5 border-secondary mb-4">در ارتباط باشید</h4>
+                    <p class="mb-4"><a href="{% url 'contact' %}">If you are in another country click here</a></p>
+                    <p class="mb-0"><i class="fa fa-phone-alt text-primary ms-3"></i>۰۹۱۴۴۹۴۷۳۱۰</p>
+                    <p class="mb-0"><i class="fa fa-envelope text-primary ms-3"></i>mahdihealth@gmail.com</p>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h4 class="d-inline-block text-primary text-uppercase border-bottom border-5 border-secondary mb-4">دسترسی سریع</h4>
+                    <div class="d-flex flex-column justify-content-start">
+                        <a class="text-light mb-2" href="{% url 'home' %}"><i class="fa fa-angle-right ms-2"></i>خانه</a>
+                        <a class="text-light mb-2" href="{% url 'about' %}"><i class="fa fa-angle-right ms-2"></i>درباره ما</a>
+                        <a class="text-light mb-2" href="{% url 'services' %}"><i class="fa fa-angle-right ms-2"></i>خدمات</a>
+                        <a class="text-light mb-2" href="{% url 'doctors' %}"><i class="fa fa-angle-right ms-2"></i>تیم ما</a>
+                        <a class="text-light" href="{% url 'contact_fa' %}"><i class="fa fa-angle-right ms-2"></i>ارتباط با ما</a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h4 class="d-inline-block text-primary text-uppercase border-bottom border-5 border-secondary mb-4">لینک های مفید</h4>
+                    <div class="d-flex flex-column justify-content-start">
+                        <a class="text-light mb-2" href="{% url 'comprehensive_rule' %}"><i class="fa fa-angle-right ms-2"></i>قوانین جامع</a>
+                        <a class="text-light mb-2" href="{% url 'appointment_cancellation_rule' %}"><i class="fa fa-angle-right ms-2"></i>قوانین لغو نوبت یا مشاوره</a>
+                        <a class="text-light mb-2" href="{% url 'patient_rule' %}"><i class="fa fa-angle-right ms-2"></i>قوانین بیماران</a>
+                        <a class="text-light mb-2" href="{% url 'doctor_rule' %}"><i class="fa fa-angle-right ms-2"></i>قوانین پزشکان</a>
+                        <a class="text-light mb-2" href="{% url 'FAQ' %}"><i class="fa fa-angle-right ms-2"></i>سوالات متداول</a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h4 class="d-inline-block text-primary text-uppercase border-bottom border-5 border-secondary mb-4">اعتماد به ما</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+
+    {% block script %}
+
+    {% endblock %}
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'lib/easing/easing.min.js' %}"></script>
+    <script src="{% static 'lib/waypoints/waypoints.min.js' %}"></script>
+    <script src="{% static 'lib/owlcarousel/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'lib/tempusdominus/js/moment.min.js' %}"></script>
+    <script src="{% static 'lib/tempusdominus/js/moment-timezone.min.js' %}"></script>
+    <script src="{% static 'lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+</body>
+
+</html>

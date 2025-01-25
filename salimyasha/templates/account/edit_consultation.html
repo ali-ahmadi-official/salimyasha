@@ -1,0 +1,71 @@
+{% extends 'base/dashboard_base.html' %}
+{% load static %}
+
+{% block style %}
+<link type="text/css" rel="stylesheet" href="{% static 'dist/jalalidatepicker.min.css' %}" />
+<script type="text/javascript" src="{% static 'dist/jalalidatepicker.min.js' %}"></script>
+{% endblock %}
+
+{% block title %}
+ویرایش مشاوره
+{% endblock %}
+
+{% block breadcrumb %}
+<div class="breadcrumb">
+    <ul>
+        <li><a href="{% url 'dashboard' %}">داشبورد</a></li>
+        <li><a href="{% url 'doctor_consultation_list' %}">مشاوره های من</a></li>
+        <li><a href="{% url 'edit_consultation' object.id %}" class="is-active">ویرایش مشاوره</a></li>
+    </ul>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="main-content">
+    <div class="tab__box">
+        <div class="tab__items">
+            <a class="tab__item" href="{% url 'doctor_consultation_list' %}">لیست مشاوره ها</a>
+            <a class="tab__item" href="{% url 'doctor_consultation_list' %}?status=رزرو شده">مشاوره های رزرو شده</a>
+            <a class="tab__item" href="{% url 'doctor_consultation_list' %}?status=آزاد">مشاوره های آزاد</a>
+            <a class="tab__item" href="{% url 'add_consultation' %}">ایجاد مشاوره جدید</a>
+        </div>
+    </div>
+    <div class="user-info bg-white padding-30 font-size-13">
+        <form method="post"> {% csrf_token %}
+            {% if form.non_field_errors %}
+            {% for error in form.non_field_errors %}
+            <p class="error">{{ error }}</p>
+            {% endfor %}
+            {% endif %}
+            <label>تاریخ مشاوره:</label>
+            <input data-jdp name="date" class="text" autocomplete="off" value="{{ object.date }}">
+            {% if form.date.errors %}
+            {% for error in form.date.errors %}
+            <p class="error">{{ error }}</p>
+            {% endfor %}
+            {% endif %}
+            <label for="{{ form.start_time.id_for_label }}">ساعت شروع گفتگو: am به معنای قبل از ظهر و pm به معنای بعد از ظهر</label>
+            <input type="time" name="start_time" class="text" value="{{ object.start_time }}">
+            {% if form.start_time.errors %}
+            {% for error in form.start_time.errors %}
+            <p class="error">{{ error }}</p>
+            {% endfor %}
+            {% endif %}
+            <label for="{{ form.end_time.id_for_label }}">ساعت پایان گفتگو: am به معنای قبل از ظهر و pm به معنای بعد از ظهر</label>
+            <input type="time" name="end_time" class="text" value="{{ object.end_time }}">
+            {% if form.end_time.errors %}
+            {% for error in form.end_time.errors %}
+            <p class="error">{{ error }}</p>
+            {% endfor %}
+            {% endif %}
+            <br>
+            <br>
+            <button class="btn btn-netcopy_net">ویرایش مشاوره</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    jalaliDatepicker.startWatch();
+</script>
+{% endblock %}

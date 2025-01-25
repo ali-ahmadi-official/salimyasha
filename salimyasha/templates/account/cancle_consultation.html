@@ -1,0 +1,28 @@
+{% extends 'base/dashboard_base.html' %}
+{% load static %}
+
+{% block title %}
+مشاوره لغو شد
+{% endblock %}
+
+{% block breadcrumb %}
+<div class="breadcrumb">
+    <ul>
+        <li><a href="{% url 'dashboard' %}">داشبورد</a></li>
+        <li><a href="{% url 'patient_consultation_list' %}">مشاوره های من</a></li>
+        <li><a href="{% url 'cancle_consultation' consultation.id %}" class="is-active">مشاوره لغو شد</a></li>
+    </ul>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="main-content">
+    <div class="user-info bg-white padding-30 font-size-13">
+        <h2>مشاوره با موفقیت لغو شد</h2>
+        <br>
+        <h3>مبلغ مشاوره به کیف پول شما در سایت برای دریافت مشاوره در آینده اضافه شد.</h3>
+        <br>
+        <a href="{% url 'patient_consultation_list' %}">بازگشت به مشاوره های من</a></li>
+    </div>
+</div>
+{% endblock %}

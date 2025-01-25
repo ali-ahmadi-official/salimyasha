@@ -1,0 +1,119 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}
+پزشکان سالیم یاشا
+{% endblock %}
+
+{% block search %}
+<div class="container-fluid bg-primary my-5 py-5">
+    <div class="container py-5">
+        <div class="text-center mx-auto mb-5" style="max-width: 500px;">
+            <h5 class="d-inline-block text-white text-uppercase border-bottom border-5">پزشک خودت رو پیدا کن</h5>
+            <h1 class="display-4 mb-4">بهترین پزشکان را جستجو کنید</h1>
+            <h5 class="text-white fw-normal">با استفاده از فیلتر های زیر، از پزشک مد نظر خود به سرعت نوبت بگیرید!</h5>
+        </div>
+        <div class="mx-auto" style="width: 100%; max-width: 600px;">
+            <div class="input-group">
+                <form method="get" class="input-group">
+                    <select name="city" id="city-select" class="form-select border-primary w-15" style="height: 60px; border-radius: 0 10px 10px 0;">
+                        <option value="">شهر</option>
+                        {% for key, value in cities.items %}
+                            <option value="{{ key }}" {% if request.GET.city == key %}selected{% endif %}>
+                                {{ value }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                    <select name="specialty" id="expertise-select" class="form-select border-primary w-15" style="height: 60px; border-radius: 0;">
+                        <option value="">تخصص</option>
+                        {% for key, value in expertise_choices.items %}
+                            <option value="{{ key }}" {% if request.GET.specialty == key %}selected{% endif %}>
+                                {{ value }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                    <input type="text" name="q" class="form-control border-primary w-40" placeholder="نام" value="{{ request.GET.q }}">
+                    <button class="btn btn-dark border-0 w-30" style="border-radius: 10px 0 0 10px;">جستجو</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block result %}
+<div class="container-fluid py-5">
+    <div class="container">
+        <div class="row g-5">
+        {% if doctors %}
+            {% for doctor in doctors %}
+            <div class="col-lg-6 team-item">
+                <div class="row g-0 bg-light rounded overflow-hidden">
+                    <div class="col-12 col-sm-5 h-100">
+                        <img class="img-fluid h-100" src="{{ doctor.profile_image.url }}" style="object-fit: cover;">
+                    </div>
+                    <div class="col-12 col-sm-7 h-100 d-flex flex-column">
+                        <div class="mt-auto p-4">
+                            <h3><a href="{% url 'doctor' doctor.id %}" style="color: #1D2A4D;">{{ doctor.get_full_name }}</a></h3>
+                            <h6 class="fw-normal fst text-primary mb-4">
+                                <a href="{% url 'doctors' %}?specialty={{doctor.doctorprofile.expertise}}">
+                                    {{ doctor.doctorprofile.get_expertise_display }}
+                                </a>
+                            </h6>
+                            <p class="m-0">{{ doctor.doctorprofile.bio|truncatewords:15 }}</p>
+                        </div>
+                        <div class="d-flex mt-auto border-top p-4">
+                            <a class="btn btn-lg btn-primary ms-3" style="font-size: medium;" href="{% url 'doctors' %}?city={{doctor.doctorprofile.city}}">
+                                <i class="fa fa-map-marker" style="margin-left: 5px;"></i>
+                                {{ doctor.doctorprofile.get_city_display }}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            {% else %}
+            <h3 style="text-align: center;">پزشکی یافت نشد :(</h3>
+            {% endif %}
+            <div class="page">
+                {% if page_obj.has_previous %}
+                    <a href="{% url 'doctors' %}?page={{ page_obj.previous_page_number }}">
+                        <div class="ago">
+                            <p>قبلی</p>
+                        </div>
+                    </a>
+                    {% if page_obj.number > 3 %}
+                        <a href="{% url 'doctors' %}?page=1" class="number">1</a>
+                        {% if page_obj.number > 4 %}
+                            <span class="number">...</span>
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
+            
+                {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                        <a href="{% url 'doctors' %}?page={{ num }}" class="number">{{ num }}</a>
+                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %} 
+                        <a href="{% url 'doctors' %}?page={{ num }}" class="number">{{ num }}</a>
+                    {% endif %}
+                {% endfor %}
+            
+                {% if page_obj.has_next %}
+                    {% if page_obj.number < page_obj.paginator.num_pages|add:'-3' %}
+                        <span class="number">...</span>
+                        <a href="{% url 'doctors' %}?page={{ page_obj.paginator.num_pages }}" class="number">{{ page_obj.paginator.num_pages }}</a>
+                    {% elif page_obj.number < page_obj.paginator.num_pages|add:'-2' %} 
+                        <a href="{% url 'doctors' %}?page={{ page_obj.paginator.num_pages }}" class="number">{{ page_obj.paginator.num_pages }}</a>
+                    {% endif %}
+            
+                    <a href="{% url 'doctors' %}?page={{ page_obj.next_page_number }}">
+                        <div class="next">
+                            <p>بعدی</p>
+                        </div>
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

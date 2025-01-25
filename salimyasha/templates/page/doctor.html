@@ -1,0 +1,337 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}
+{{ object.get_full_name }}
+{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row g-5">
+        <div class="col-lg-8">
+            <div class="mb-5">
+                <div class="mb-4" style="display: flex; justify-content: center; align-items: end; height: 250px; border-radius: 8px; overflow: hidden;">
+                    <img class="img-fluid rounded doctorprofile" style="height: 100%; object-fit: cover; border-radius: 0 !important;" src="{{ object.profile_image.url }}" alt="">
+                    <div class="rounded doctorlocation" style="height: 100%;">
+                        {% if 'iframe' in object.clinic.location %}
+                        {{ object.clinic.location | safe }}
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <div style="display: grid; gap: 10px; grid-template-columns: repeat(2, 1fr);">
+                        <a class="h2 bg-light rounded py-2 px-3 mb-2" id="a" href="#" style="grid-column: 1 / 3; text-align: center;">دکتر {{ object.get_full_name }}</a>
+                        <a class="h5 bg-light rounded py-2 px-3 mb-2" id="a" href="#">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-postcard-heart ms-2" viewBox="0 0 16 16">
+                                <path d="M8 4.5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0zm3.5.878c1.482-1.42 4.795 1.392 0 4.622-4.795-3.23-1.482-6.043 0-4.622M2.5 5a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1zm0 2a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1zm0 2a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1z"/>
+                                <path fill-rule="evenodd" d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1z"/>
+                              </svg>
+                            {{ object.doctorprofile.get_expertise_display }}
+                        </a>
+                        <a class="h5 bg-light rounded py-2 px-3 mb-2" id="a" href="#">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-geo-alt ms-2" viewBox="0 0 16 16">
+                                <path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A32 32 0 0 1 8 14.58a32 32 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10"/>
+                                <path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4m0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
+                              </svg>
+                            {{ object.doctorprofile.get_city_display }}
+                        </a>
+                        <a class="h5 bg-light rounded py-2 px-3 mb-2" id="a" href="#">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check2-circle ms-2" viewBox="0 0 16 16">
+                                <path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0"/>
+                                <path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0z"/>
+                              </svg>
+                            کد نظام پزشکی: {{ object.doctorprofile.medical_system_number }}
+                        </a>
+                        <a class="h5 bg-light rounded py-2 px-3 mb-2" id="a" href="#">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-building-check ms-2" viewBox="0 0 16 16">
+                                <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m1.679-4.493-1.335 2.226a.75.75 0 0 1-1.174.144l-.774-.773a.5.5 0 0 1 .708-.708l.547.548 1.17-1.951a.5.5 0 1 1 .858.514"/>
+                                <path d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6.5a.5.5 0 0 1-1 0V1H3v14h3v-2.5a.5.5 0 0 1 .5-.5H8v4H3a1 1 0 0 1-1-1z"/>
+                                <path d="M4.5 2a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm-6 3a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm-6 3a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5z"/>
+                              </svg>
+                            مطب: {{ object.clinic.name }}
+                        </a>
+                        <a class="h5 bg-light rounded py-2 px-3 mb-2" id="a" href="#" style="grid-column: 1 / 3;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-map ms-2" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M15.817.113A.5.5 0 0 1 16 .5v14a.5.5 0 0 1-.402.49l-5 1a.5.5 0 0 1-.196 0L5.5 15.01l-4.902.98A.5.5 0 0 1 0 15.5v-14a.5.5 0 0 1 .402-.49l5-1a.5.5 0 0 1 .196 0L10.5.99l4.902-.98a.5.5 0 0 1 .415.103M10 1.91l-4-.8v12.98l4 .8zm1 12.98 4-.8V1.11l-4 .8zm-6-.8V1.11l-4 .8v12.98z"/>
+                            </svg> 
+                            آدرس: {{ object.clinic.address }}
+                        </a>
+                    </div>
+                </div>
+                <h4>درباره دکتر {{ object.get_full_name }}</h4>
+                <p>{{ object.doctorprofile.bio | linebreaksbr }}</p>
+
+                <div class="mb-5">
+                    <h4 class="d-inline-block text-primary text-uppercase border-bottom border-5 mb-4">تاریخ نوبت ها</h4>
+                    <div class="d-flex m-n1 no-scrollbar mb-3" style="overflow-x: scroll;">
+                        <button class="btn btn-primary m-1" id="today">امروز</button>
+                        <button class="btn btn-primary m-1" id="tomorrow">فردا</button>
+                        <button class="btn btn-primary m-1" id="day-2"></button>
+                        <button class="btn btn-primary m-1" id="day-3"></button>
+                        <button class="btn btn-primary m-1" id="day-4"></button>
+                        <button class="btn btn-primary m-1" id="day-5"></button>
+                        <button class="btn btn-primary m-1" id="day-6"></button>
+                    </div>
+                    <div class="bg-light rounded text-center" style="padding: 30px;">
+                    <h5 class="mb-3 time-title">نوبت های آزاد امروز</h5>
+                        <div class="flex-wrap m-n1 time today-time" style="display: flex;">
+                            {% if today %}
+                            {% for appointment in today %}
+                            <a href="{% url 'take_appointment' appointment.id %}" class="btn btn-primary m-1">{{ appointment.start_time }}</a>
+                            {% endfor %}
+                            {% else %}
+                            <p>وقت آزاد برای این تاریخ یافت نشد.</p>
+                            {% endif %}
+                        </div>
+                        <div class="flex-wrap m-n1 time tomorrow-time" style="display: none;">
+                            {% if tomorrow %}
+                            {% for appointment in tomorrow %}
+                            <a href="{% url 'take_appointment' appointment.id %}" class="btn btn-primary m-1">{{ appointment.start_time }}</a>
+                            {% endfor %}
+                            {% else %}
+                            <p>وقت آزاد برای این تاریخ یافت نشد.</p>
+                            {% endif %}
+                        </div>
+                        <div class="flex-wrap m-n1 time day-2-time" style="display: none;">
+                            {% if tomorrow2 %}
+                            {% for appointment in tomorrow2 %}
+                            <a href="{% url 'take_appointment' appointment.id %}" class="btn btn-primary m-1">{{ appointment.start_time }}</a>
+                            {% endfor %}
+                            {% else %}
+                            <p>وقت آزاد برای این تاریخ یافت نشد.</p>
+                            {% endif %}
+                        </div>
+                        <div class="flex-wrap m-n1 time day-3-time" style="display: none;">
+                            {% if tomorrow3 %}
+                            {% for appointment in tomorrow3 %}
+                            <a href="{% url 'take_appointment' appointment.id %}" class="btn btn-primary m-1">{{ appointment.start_time }}</a>
+                            {% endfor %}
+                            {% else %}
+                            <p>وقت آزاد برای این تاریخ یافت نشد.</p>
+                            {% endif %}
+                        </div>
+                        <div class="flex-wrap m-n1 time day-4-time" style="display: none;">
+                            {% if tomorrow4 %}
+                            {% for appointment in tomorrow4 %}
+                            <a href="{% url 'take_appointment' appointment.id %}" class="btn btn-primary m-1">{{ appointment.start_time }}</a>
+                            {% endfor %}
+                            {% else %}
+                            <p>وقت آزاد برای این تاریخ یافت نشد.</p>
+                            {% endif %}
+                        </div>
+                        <div class="flex-wrap m-n1 time day-5-time" style="display: none;">
+                            {% if tomorrow5 %}
+                            {% for appointment in tomorrow5 %}
+                            <a href="{% url 'take_appointment' appointment.id %}" class="btn btn-primary m-1">{{ appointment.start_time }}</a>
+                            {% endfor %}
+                            {% else %}
+                            <p>وقت آزاد برای این تاریخ یافت نشد.</p>
+                            {% endif %}
+                        </div>
+                        <div class="flex-wrap m-n1 time day-6-time" style="display: none;">
+                            {% if tomorrow6 %}
+                            {% for appointment in tomorrow6 %}
+                            <a href="{% url 'take_appointment' appointment.id %}" class="btn btn-primary m-1">{{ appointment.start_time }}</a>
+                            {% endfor %}
+                            {% else %}
+                            <p>وقت آزاد برای این تاریخ یافت نشد.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-5">
+                    <h4 class="d-inline-block text-primary text-uppercase border-bottom border-5 mb-4">تاریخ مشاوره ها</h4>
+                    <div class="d-flex m-n1 no-scrollbar mb-3" style="overflow-x: scroll;">
+                        <button class="btn btn-primary m-1" id="ctoday">امروز</button>
+                        <button class="btn btn-primary m-1" id="ctomorrow">فردا</button>
+                        <button class="btn btn-primary m-1" id="cday-2"></button>
+                        <button class="btn btn-primary m-1" id="cday-3"></button>
+                        <button class="btn btn-primary m-1" id="cday-4"></button>
+                        <button class="btn btn-primary m-1" id="cday-5"></button>
+                        <button class="btn btn-primary m-1" id="cday-6"></button>
+                    </div>
+                    <div class="bg-light rounded text-center" style="padding: 30px;">
+                    <h5 class="mb-3 ctime-title">مشاوره های آزاد امروز</h5>
+                        <div class="flex-wrap m-n1 ctime ctoday-time" style="display: flex;">
+                            {% if ctoday %}
+                            {% for appointment in ctoday %}
+                            <a href="{% url 'take_consultation' appointment.id %}" class="btn btn-primary m-1">از {{ appointment.start_time }} تا {{ appointment.end_time }}</a>
+                            {% endfor %}
+                            {% else %}
+                            <p>وقت آزاد برای این تاریخ یافت نشد.</p>
+                            {% endif %}
+                        </div>
+                        <div class="flex-wrap m-n1 ctime ctomorrow-time" style="display: none;">
+                            {% if ctomorrow %}
+                            {% for appointment in ctomorrow %}
+                            <a href="{% url 'take_consultation' appointment.id %}" class="btn btn-primary m-1">از {{ appointment.start_time }} تا {{ appointment.end_time }}</a>
+                            {% endfor %}
+                            {% else %}
+                            <p>وقت آزاد برای این تاریخ یافت نشد.</p>
+                            {% endif %}
+                        </div>
+                        <div class="flex-wrap m-n1 ctime cday-2-time" style="display: none;">
+                            {% if ctomorrow2 %}
+                            {% for appointment in ctomorrow2 %}
+                            <a href="{% url 'take_consultation' appointment.id %}" class="btn btn-primary m-1">از {{ appointment.start_time }} تا {{ appointment.end_time }}</a>
+                            {% endfor %}
+                            {% else %}
+                            <p>وقت آزاد برای این تاریخ یافت نشد.</p>
+                            {% endif %}
+                        </div>
+                        <div class="flex-wrap m-n1 ctime cday-3-time" style="display: none;">
+                            {% if ctomorrow3 %}
+                            {% for appointment in ctomorrow3 %}
+                            <a href="{% url 'take_consultation' appointment.id %}" class="btn btn-primary m-1">از {{ appointment.start_time }} تا {{ appointment.end_time }}</a>
+                            {% endfor %}
+                            {% else %}
+                            <p>وقت آزاد برای این تاریخ یافت نشد.</p>
+                            {% endif %}
+                        </div>
+                        <div class="flex-wrap m-n1 ctime cday-4-time" style="display: none;">
+                            {% if ctomorrow4 %}
+                            {% for appointment in ctomorrow4 %}
+                            <a href="{% url 'take_consultation' appointment.id %}" class="btn btn-primary m-1">از {{ appointment.start_time }} تا {{ appointment.end_time }}</a>
+                            {% endfor %}
+                            {% else %}
+                            <p>وقت آزاد برای این تاریخ یافت نشد.</p>
+                            {% endif %}
+                        </div>
+                        <div class="flex-wrap m-n1 ctime cday-5-time" style="display: none;">
+                            {% if ctomorrow5 %}
+                            {% for appointment in ctomorrow5 %}
+                            <a href="{% url 'take_consultation' appointment.id %}" class="btn btn-primary m-1">از {{ appointment.start_time }} تا {{ appointment.end_time }}</a>
+                            {% endfor %}
+                            {% else %}
+                            <p>وقت آزاد برای این تاریخ یافت نشد.</p>
+                            {% endif %}
+                        </div>
+                        <div class="flex-wrap m-n1 ctime cday-6-time" style="display: none;">
+                            {% if ctomorrow6 %}
+                            {% for appointment in ctomorrow6 %}
+                            <a href="{% url 'take_consultation' appointment.id %}" class="btn btn-primary m-1">از {{ appointment.start_time }} تا {{ appointment.end_time }}</a>
+                            {% endfor %}
+                            {% else %}
+                            <p>وقت آزاد برای این تاریخ یافت نشد.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-between bg-light rounded p-4 mt-4 mb-4">
+                    <div class="d-flex align-items-center">
+                        <img class="rounded-circle ms-2" src="{{ object.profile_image.url }}" width="40" height="40" alt="">
+                        <span>نظرات بیماران دکتر {{ object.get_full_name }}</span>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <span class="ms-3" title="نظرات"><i class="far fa-comment text-primary ms-1"></i>{{ comments_num }}</span>
+                        <span class="ms-3" title="امتیاز"><i class="far fa-star text-primary ms-1"></i>{{ average }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-5 no-scrollbar" style="max-height: 400px; overflow-y: scroll;">
+                <h4 class="d-inline-block text-primary text-uppercase border-bottom border-5 mb-4">{{ comments_num }} دیدگاه</h4>
+                {% for appointment_comment in appointment_comments %}
+                <div class="d-flex mb-4">
+                    <img src="{{ appointment_comment.appointment.patient.profile_image.url }}" class="img-fluid rounded-circle" style="width: 45px; height: 45px;">
+                    <div class="pe-3">
+                        <h6>{{ appointment_comment.appointment.patient.get_full_name }}
+                            <div class="star-box" data-stars="{{ appointment_comment.star }}" style="display: contents;">
+                                <span class="star" style="color: #b9bcb6;">★
+                                </span>
+                                <span class="star" style="color: #b9bcb6;">★
+                                </span>
+                                <span class="star" style="color: #b9bcb6;">★
+                                </span>
+                                <span class="star" style="color: #b9bcb6;">★
+                                </span>
+                                <span class="star" style="color: #b9bcb6;">★
+                                </span>
+                            </div>
+                        </h6>
+                        <p>{{ appointment_comment.content|linebreaksbr }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+                {% for consultation_comment in consultation_comments %}
+                <div class="d-flex mb-4">
+                    <img src="{{ consultation_comment.consultation.patient.profile_image.url }}" class="img-fluid rounded-circle" style="width: 45px; height: 45px;">
+                    <div class="pe-3">
+                        <h6>{{ consultation_comment.consultation.patient.get_full_name }}
+                            <div class="star-box" data-stars="{{ consultation_comment.star }}" style="display: contents;">
+                                <span class="star" style="color: #b9bcb6;">★
+                                </span>
+                                <span class="star" style="color: #b9bcb6;">★
+                                </span>
+                                <span class="star" style="color: #b9bcb6;">★
+                                </span>
+                                <span class="star" style="color: #b9bcb6;">★
+                                </span>
+                                <span class="star" style="color: #b9bcb6;">★
+                                </span>
+                            </div>
+                        </h6>
+                        <p>{{ consultation_comment.content|linebreaksbr }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            {% if similar_doctors_by_expertise %}
+            <div class="mb-5">
+                <h4 class="d-inline-block text-primary text-uppercase border-bottom border-5 mb-4">متخصصان مشابه</h4>
+                {% for similar_doctor in similar_doctors_by_expertise %}
+                <div class="d-flex rounded overflow-hidden mb-3">
+                    <img class="img-fluid" src="{{ similar_doctor.profile_image.url }}" style="width: 100px; height: 100px; object-fit: cover;"
+                        alt="">
+                    <a href="{% url 'doctor' similar_doctor.id %}" class="h5 d-flex align-items-center bg-light px-3 mb-0 w-100" id="a">
+                        دکتر {{ similar_doctor.get_full_name }}
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            {% if similar_doctors_by_city %}
+            <div class="mb-5">
+                <h4 class="d-inline-block text-primary text-uppercase border-bottom border-5 mb-4">پزشکان این شهر</h4>
+                {% for similar_doctor in similar_doctors_by_city %}
+                <div class="d-flex rounded overflow-hidden mb-3">
+                    <img class="img-fluid" src="{{ similar_doctor.profile_image.url }}" style="width: 100px; height: 100px; object-fit: cover;"
+                        alt="">
+                    <a href="{% url 'doctor' similar_doctor.id %}" class="h5 d-flex align-items-center bg-light px-3 mb-0 w-100" id="a">
+                        دکتر {{ similar_doctor.get_full_name }}
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'js/app_con.js' %}"></script>
+<script>
+    function addOkClasses() {
+        const boxes = document.querySelectorAll('.star-box');
+
+        boxes.forEach((box) => {
+            const numStars = parseInt(box.getAttribute('data-stars'));
+
+            const stars = box.querySelectorAll('.star');
+
+            const count = Math.min(numStars, stars.length);
+
+            for (let i = 0; i < count; i++) {
+                stars[i].style.color = '#F3C623';
+            }
+        });
+    }
+
+    addOkClasses();
+</script>
+{% endblock %}

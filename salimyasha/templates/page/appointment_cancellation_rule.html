@@ -1,0 +1,33 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}
+قوانین لغو نوبت یا مشاوره
+{% endblock %}
+
+{% block rule %}
+<div class="container-fluid py-5">
+    <div class="container">
+        <div class="title">
+            <i class="bi bi-list"></i>
+            <h3>قوانین لغو نوبت یا مشاوره</h3>
+        </div>
+        {% for appointment_cancellation_rule in appointment_cancellation_rules %}
+        <div class="article">
+            <div class="article-num">
+                <i class="bi bi-x"></i>
+                <h5>ماده {{ appointment_cancellation_rule.id }}: {{ appointment_cancellation_rule.article }}</h5>
+            </div>
+            <div class="paragraphs">
+                {% for paragraph in appointment_cancellation_rule.pacr.all %}
+                <div class="paragraph">
+                    <i class="bi bi-circle"></i>
+                    <p>{{ paragraph.content }}</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

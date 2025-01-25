@@ -1,0 +1,110 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{% static 'img/BB.png' %}" rel="icon">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
+    <link rel="stylesheet" href="{% static 'css/chat.css' %}">
+    <title>صفحه مشاوره</title>
+</head>
+
+<body>
+    <div class="page-content page-container" id="page-content">
+        <div class="padding">
+            <div class="row container d-flex justify-content-center"
+                style="max-width: 100%; padding: 0; margin: 0; height: 100vh;">
+                <div class="col-md-6" style="max-width: 100%; height: 100%; padding: 0;" id="reload">
+                    <div class="card card-bordered" style="margin: 0; height: 100%; width: 100vw;">
+                        <div class="card-header">
+                            <h4 class="card-title"><strong>سالیم یاشا</strong></h4>
+                            <a class="btn btn-xs btn-secondary" href="{% url 'dashboard' %}" data-abc="true">بازگشت به
+                                داشبورد</a>
+                        </div>
+
+                        <div class="no-scrollbar ps-container ps-theme-default ps-active-y" id="chat-content"
+                            style="overflow-y: scroll !important; height: calc(100vh - 115.5px) !important;">
+                            {% for message in messages %}
+                            {% if message.author == request.user %}
+                            <div class="media media-chat media-chat-reverse">
+                                <div class="media-body" style="display: flex; flex-direction: column;">
+                                    <p dir="rtl" style="margin-left: 5px;">{{ message.text }}</p>
+                                    {% if message.file %}
+                                    {% if '.jpg' or '.png' or '.jpeg' in messages.file.url %}
+                                    <div style="display: flex; justify-content: center; align-items: center; padding: 10px; border-radius: 3px; background-color: #fff;">
+                                        <img src="{{ message.file.url }}" alt="تصویر ضمیمه" style="max-width: 200px;">
+                                    </div>
+                                    {% else %}
+                                    <div style="display: flex; justify-content: center; align-items: center; padding: 10px; border-radius: 3px; background-color: #fff;">
+                                        <a href="{{ message.file.url }}" download>دانلود فایل</a>
+                                    </div>
+                                    {% endif %}
+                                    {% endif %}
+                                    <p class="meta me"><time>{{ message.created_at | time }}</time></p>
+                                </div>
+                            </div>
+                            {% else %}
+                            <div class="media media-chat">
+                                <img class="avatar" src="{{ message.author.profile_image.url }}" alt="...">
+                                <div class="media-body">
+                                    <p dir="rtl">{{ message.text }}</p>
+                                    {% if message.file %}
+                                    {% if '.jpg' or '.png' or '.jpeg' in messages.file.url %}
+                                    <div style="display: flex; justify-content: center; align-items: center; padding: 10px; border-radius: 3px; background-color: #fff;">
+                                        <img src="{{ message.file.url }}" alt="تصویر ضمیمه" style="max-width: 200px;">
+                                    </div>
+                                    {% else %}
+                                    <div style="display: flex; justify-content: center; align-items: center; padding: 10px; border-radius: 3px; background-color: #fff;">
+                                        <a href="{{ message.file.url }}" download>دانلود فایل</a>
+                                    </div>
+                                    {% endif %}
+                                    {% endif %}
+                                    <p class="meta you"><time>{{ message.created_at | time }}</time></p>
+                                </div>
+                            </div>
+                            {% endif %}
+                            {% endfor %}
+
+                            <!-- <div class="media media-meta-day">Today</div> -->
+
+                            <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 0px;">
+                                <div class="ps-scrollbar-x" tabindex="0" style="left: 0px; width: 0px;"></div>
+                            </div>
+                            <div class="ps-scrollbar-y-rail" style="top: 0px; height: 0px; right: 2px;">
+                                <div class="ps-scrollbar-y" tabindex="0" style="top: 0px; height: 2px;"></div>
+                            </div>
+                        </div>
+                        <div id="fileNameBox"></div>
+                        {% if allowed %}
+                        <form method="post" class="publisher bt-1 border-light" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <img class="avatar avatar-xs" src="{{ request.user.profile_image.url }}" alt="...">
+                            <input class="publisher-input" type="text" name="text" placeholder="چیزی بنویسید ...."
+                                autocomplete="off" required autofocus>
+                            <span class="publisher-btn file-group">
+                                <i class="fa fa-paperclip file-browser"></i>
+                                <input type="file" name="file" id="file-input">
+                            </span>
+                            <button type="submit" class="publisher-btn text-info" data-abc="true"><i
+                                    class="fa fa-paper-plane"></i></button>
+                        </form>
+                        {% else %}
+                        <div class="publisher bt-1 border-light" style="display: flex; justify-content: center; align-items: center; color: red;">
+                            شما مجاز به ارسال پیام نیستید
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="{% static 'js/chat.js' %}"></script>
+</body>
+
+</html>

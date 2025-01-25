@@ -1,0 +1,82 @@
+{% extends 'base/dashboard_base.html' %}
+{% load static %}
+
+{% block title %}
+ویرایش مطب
+{% endblock %}
+
+{% block breadcrumb %}
+<div class="breadcrumb">
+    <ul>
+        <li><a href="{% url 'dashboard' %}">داشبورد</a></li>
+        <li><a href="{% url 'doctor_profile' user.doctorprofile.id %}">پروفایل من</a></li>
+        <li><a href="{% url 'edit_clinic' object.id %}" class="is-active">ویرایش مطب</a></li>
+    </ul>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="main-content  ">
+    <div class="user-info bg-white padding-30 font-size-13">
+        <form method="post"> {% csrf_token %}
+            {% if form.non_field_errors %}
+            {% for error in form.non_field_errors %}
+            <p class="error">{{ error }}</p>
+            {% endfor %}
+            {% endif %}
+            <label for="{{ form.name.id_for_label }}">نام مطب:</label>
+            <input type="text" name="name" class="text" value="{{ object.name }}">
+            {% if form.name.errors %}
+            {% for error in form.name.errors %}
+            <p class="error">{{ error }}</p>
+            {% endfor %}
+            {% endif %}
+            <label for="{{ form.location.id_for_label }}">لوکیشن:</label>
+            <input type="text" name="location" class="text" value="{{ object.location }}">
+            {% if form.location.errors %}
+            {% for error in form.location.errors %}
+            <p class="error">{{ error }}</p>
+            {% endfor %}
+            {% endif %}
+            <label for="{{ form.address.id_for_label }}">آدرس مطب:</label>
+            <input type="text" name="address" class="text" value="{{ object.address }}">
+            {% if form.address.errors %}
+            {% for error in form.address.errors %}
+            <p class="error">{{ error }}</p>
+            {% endfor %}
+            {% endif %}
+            <br>
+            <br>
+            <button class="btn btn-netcopy_net">ویرایش مطب</button>
+        </form>
+    </div>
+    <div class="user-info bg-white padding-30 font-size-13">
+        <h3>راهنمای قرار دهی لوکیشن مطب در سالیم یاشا:</h3>
+        <br>
+        <h5 style="color: green;">توجه داشته باشید اگر مطب شما در گوگل مپ، نشان و یا اپ های مشابه معرفی نشده، پر کردن فیلد لوکیشن اجباری نیست!</h5>
+        <br>
+        <br>
+        <h3>قدم اول: مطب خود را در گوگل مپ یا اپ های مشابه انتخاب کنید.</h3>
+        <br>
+        <img src="{% static 'img/step 1.png' %}" alt="step 1" style="width: 100%;">
+        <br>
+        <br>
+        <h3>قدم دوم: در منوی اطلاعات لوکیشن گزینه اشتراک گذاری را انتخاب کنید.</h3>
+        <br>
+        <img src="{% static 'img/step 2.png' %}" alt="step 2" style="width: 100%;">
+        <br>
+        <br>
+        <h3>قدم سوم: در باکس باز شده گزینه جاسازی نقشه را انتخاب کنید.</h3>
+        <br>
+        <img src="{% static 'img/step 3.png' %}" alt="step 3" style="width: 100%;">
+        <br>
+        <br>
+        <h3>قدم آخر: در ادامه گزینه کپی html را انتخاب کرده. متن مورد نظر در کیبورد شما کپی شده است. حال آن متن را بدون تغییر در فیلد لوکیشن این فرم الصاق کنید و فرم خود را ویرایش کنید.</h3>
+        <br>
+        <img src="{% static 'img/step 4.png' %}" alt="step 4" style="width: 100%;">
+        <br>
+        <br>
+        <h3>درنهایت توجه داشته باشید درصورت بروز هرگونه اشکال یا سوال میتوانید در بخش ارسال تیکت به ادمین مشکل خود را شرح دهید.</h3>
+    </div>
+</div>
+{% endblock %}

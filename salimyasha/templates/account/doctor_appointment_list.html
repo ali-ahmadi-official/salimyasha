@@ -1,0 +1,65 @@
+{% extends 'base/dashboard_base.html' %}
+{% load static %}
+
+{% block title %}
+نوبت های من
+{% endblock %}
+
+{% block breadcrumb %}
+<div class="breadcrumb">
+    <ul>
+        <li><a href="{% url 'dashboard' %}">داشبورد</a></li>
+        <li><a href="{% url 'doctor_appointment_list' %}" class="is-active">نوبت های من</a></li>
+    </ul>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="main-content">
+    <div class="tab__box">
+        <div class="tab__items">
+            <a class="tab__item" href="{% url 'doctor_appointment_list' %}">لیست نوبت ها</a>
+            <a class="tab__item" href="{% url 'doctor_appointment_list' %}?status=رزرو شده">نوبت های رزرو شده</a>
+            <a class="tab__item" href="{% url 'doctor_appointment_list' %}?status=آزاد">نوبت های آزاد</a>
+            <a class="tab__item" href="{% url 'add_appointment' %}">ایجاد نوبت جدید</a>
+        </div>
+    </div>
+    <div class="table__box">
+        <table class="table">
+            <thead role="rowgroup">
+                <tr role="row" class="title-row">
+                    <th>شناسه</th>
+                    <th>تاریخ نوبت</th>
+                    <th>ساعت نوبت</th>
+                    <th>وضعیت نوبت</th>
+                    <th>شماره تماس بیمار</th>
+                    <th>عملیات</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for doctor_appointment in doctor_appointments %}
+                <tr role="row">
+                    <td>{{ doctor_appointment.id }}</td>
+                    <td>{{ doctor_appointment.date }}</td>
+                    <td>{{ doctor_appointment.start_time }}</td>
+                    <td>{{ doctor_appointment.status }}</td>
+                    {% if doctor_appointment.patient.phone_number %}
+                    <td>{{ doctor_appointment.patient.phone_number }}</td>
+                    {% else %}
+                    <td>---</td>
+                    {% endif %}
+                    <td>
+                        {% if doctor_appointment.status == 'آزاد' %}
+                        <a href="{% url 'delete_appointment' doctor_appointment.id %}" class="item-delete mlg-15" title="حذف"></a>
+                        <a href="{% url 'edit_appointment' doctor_appointment.id %}" class="item-edit " title="ویرایش"></a>
+                        {% else %}
+                        ---
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

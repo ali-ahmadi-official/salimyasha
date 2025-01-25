@@ -1,0 +1,48 @@
+from django.urls import path
+from django.contrib.auth import views
+from .views import (
+    password_reset_request, password_change, password_change_done, patient_signup_view, doctor_signup_view, patient_login_view, doctor_login_view,
+    UserDashboardView, DoctorProfileCreateView, DoctorProfileDetailView, EditProfileView, DoctorEditBio, UserUpdateView, ClinicCreateView, ClinicUpdateView,
+    PatientProfileCreateView, PatientProfileDetailView, EditProfileView2,
+    DoctorAppointmentListView, AddAppointmentCreateView, AppointmentUpdateView, AppointmentDeleteView,
+    DoctorConsultationListView, ConsultationCreateView, ConsultationUpdateView, ConsultationDeleteView,
+    PatientAppointmentListView, PatientConsultationListView,
+    add_appointmen_comment, add_consultation_comment, ticket_list_create, chat, update_chat
+)
+
+urlpatterns = [
+    path('password-reset/', password_reset_request, name='password_reset'),
+    path('password-change/<int:user_id>/', password_change, name='password_change'),
+    path('password-change-done/', password_change_done, name='password_change_done'),
+    path('patient-signup/', patient_signup_view, name='patient_signup'),
+    path('doctor-signup/', doctor_signup_view, name='doctor_signup'),
+    path('patient-login/', patient_login_view, name='patient_login'),
+    path('doctor-login/', doctor_login_view, name='doctor_login'),
+    path('logout/', views.LogoutView.as_view(), name='logout'),
+    path('dashboard/', UserDashboardView.as_view(), name='dashboard'),
+    path('doctor-create-profile/', DoctorProfileCreateView.as_view(), name='doctor_create_profile'),
+    path('doctor-profile/<int:pk>/', DoctorProfileDetailView.as_view(), name='doctor_profile'),
+    path('edit-profile/', EditProfileView.as_view(), name='edit_profile'),
+    path('edit-bio/<int:pk>/', DoctorEditBio.as_view(), name='edit_bio'),
+    path('edit-user/<int:pk>/', UserUpdateView.as_view(), name='edit_user'),
+    path('patient-create-profile/', PatientProfileCreateView.as_view(), name='patient_create_profile'),
+    path('patient-profile/<int:pk>/', PatientProfileDetailView.as_view(), name='patient_profile'),
+    path('edit-profile2/', EditProfileView2.as_view(), name='edit_profile2'),
+    path('add-clinic/', ClinicCreateView.as_view(), name='add_clinic'),
+    path('edit-clinic/<int:pk>/', ClinicUpdateView.as_view(), name='edit_clinic'),
+    path('doctor-appointment-list/', DoctorAppointmentListView.as_view(), name='doctor_appointment_list'),
+    path('add-appointment/', AddAppointmentCreateView.as_view(), name='add_appointment'),
+    path('edit-appointment/<int:pk>/', AppointmentUpdateView.as_view(), name='edit_appointment'),
+    path('delete-appointment/<int:pk>/', AppointmentDeleteView.as_view(), name='delete_appointment'),
+    path('doctor-consultation-list/', DoctorConsultationListView.as_view(), name='doctor_consultation_list'),
+    path('add-consultation/', ConsultationCreateView.as_view(), name='add_consultation'),
+    path('edit-consultation/<int:pk>/', ConsultationUpdateView.as_view(), name='edit_consultation'),
+    path('delete-consultation/<int:pk>/', ConsultationDeleteView.as_view(), name='delete_consultation'),
+    path('patient-appointment-list/', PatientAppointmentListView.as_view(), name='patient_appointment_list'),
+    path('patient-consultation-list/', PatientConsultationListView.as_view(), name='patient_consultation_list'),
+    path('add-appointment-comment/<int:pk>/', add_appointmen_comment, name='add_appointmen_comment'),
+    path('add-consultation-comment/<int:pk>/', add_consultation_comment, name='add_consultation_comment'),
+    path('ticket-list-create/', ticket_list_create, name='ticket_list_create'),
+    path('chat/<int:pk>/', chat, name='chat'),
+    path('update-chat/<int:pk>/', update_chat, name='update_chat'),
+]

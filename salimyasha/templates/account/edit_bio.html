@@ -1,0 +1,47 @@
+{% extends 'base/dashboard_base.html' %}
+{% load static %}
+
+{% block title %}
+ویرایش درباره من
+{% endblock %}
+
+{% block breadcrumb %}
+<div class="breadcrumb">
+    <ul>
+        <li><a href="{% url 'dashboard' %}">داشبورد</a></li>
+        <li><a href="{% url 'doctor_profile' user.doctorprofile.id %}">پروفایل من</a></li>
+        <li><a href="{% url 'edit_bio' object.id %}" class="is-active">ویرایش درباره من</a></li>
+    </ul>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="main-content  ">
+    <div class="user-info bg-white padding-30 font-size-13">
+        <form method="post" enctype="multipart/form-data"> {% csrf_token %}
+            {% if form.non_field_errors %}
+            {% for error in form.non_field_errors %}
+            <p class="error">{{ error }}</p>
+            {% endfor %}
+            {% endif %}
+            <label for="{{ form.expertise.id_for_label }}">تخصص:</label>
+            {{ form.expertise }}
+            {% if form.expertise.errors %}
+            {% for error in form.expertise.errors %}
+            <p class="error">{{ error }}</p>
+            {% endfor %}
+            {% endif %}
+            <label for="{{ form.bio.id_for_label }}">بیوگرافی:</label>
+            {{ form.bio }}
+            {% if form.bio.errors %}
+            {% for error in form.bio.errors %}
+            <p class="error">{{ error }}</p>
+            {% endfor %}
+            {% endif %}
+            <br>
+            <br>
+            <button class="btn btn-netcopy_net">ذخیره تغییرات</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

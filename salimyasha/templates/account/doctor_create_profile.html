@@ -1,0 +1,125 @@
+{% extends 'base/dashboard_base.html' %}
+{% load static %}
+
+{% block style %}
+<link type="text/css" rel="stylesheet" href="{% static 'dist/jalalidatepicker.min.css' %}" />
+<script type="text/javascript" src="{% static 'dist/jalalidatepicker.min.js' %}"></script>
+{% endblock %}
+
+{% block title %}
+ایجاد پروفایل
+{% endblock %}
+
+{% block breadcrumb %}
+<div class="breadcrumb">
+    <ul>
+        <li><a href="{% url 'dashboard' %}">داشبورد</a></li>
+        <li><a href="{% url 'doctor_create_profile' %}" class="is-active">ایجاد پروفایل</a></li>
+    </ul>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="main-content  ">
+    <div class="user-info bg-white padding-30 font-size-13">
+        <form method="post" enctype="multipart/form-data"> {% csrf_token %}
+            {% if form.non_field_errors %}
+            {% for error in form.non_field_errors %}
+            <p class="error">{{ error }}</p>
+            {% endfor %}
+            {% endif %}
+            <div class="profile__info border cursor-pointer text-center">
+                <div class="avatar__img">
+                    {% if user.profile_image %}
+                    <img src="{{ user.profile_image.url }}" class="avatar___img" id="profile_image_preview"
+                        style="cursor: pointer;">
+                    {% else %}
+                    <img src="{% static 'img/profile.jpg' %}" class="avatar___img" id="profile_image_preview"
+                        style="cursor: pointer;">
+                    {% endif %}
+                    <input type="file" name="profile_image" accept="image/*" class="avatar-img__input"
+                        id="profile_image_input">
+                    <div class="v-dialog__container" style="display: block;"></div>
+                    <div class="box__camera default__avatar"></div>
+                </div>
+                <span class="profile__name">{{ user.user_type }} : {{ user.get_full_name }}</span>
+                <span style="font-size: smaller;">برای آپلود، روی تصویر کلیک کنید!</span>
+            </div>
+            {% if form.profile_image.errors %}
+            {% for error in form.profile_image.errors %}
+            <p class="error">{{ error }}</p>
+            {% endfor %}
+            {% endif %}
+            <label for="{{ form.first_name.id_for_label }}">نام:</label>
+            {{ form.first_name }}
+            {% if form.first_name.errors %}
+            {% for error in form.first_name.errors %}
+            <p class="error">{{ error }}</p>
+            {% endfor %}
+            {% endif %}
+            <label for="{{ form.last_name.id_for_label }}">نام خانوادگی:</label>
+            {{ form.last_name }}
+            {% if form.last_name.errors %}
+            {% for error in form.last_name.errors %}
+            <p class="error">{{ error }}</p>
+            {% endfor %}
+            {% endif %}
+            <label for="{{ form.father_name.id_for_label }}">نام پدر:</label>
+            {{ form.father_name }}
+            {% if form.father_name.errors %}
+            {% for error in form.father_name.errors %}
+            <p class="error">{{ error }}</p>
+            {% endfor %}
+            {% endif %}
+            <label for="{{ form.city.id_for_label }}">شهر:</label>
+            {{ form.city }}
+            {% if form.city.errors %}
+            {% for error in form.city.errors %}
+            <p class="error">{{ error }}</p>
+            {% endfor %}
+            {% endif %}
+            <label>تاریخ تولد:</label>
+            <input data-jdp name="birth_date" class="text" value="{{ form.birth_date.value }}" autocomplete="off">
+            {% if form.birth_date.errors %}
+            {% for error in form.birth_date.errors %}
+            <p class="error">{{ error }}</p>
+            {% endfor %}
+            {% endif %}
+            <label for="{{ form.national_id.id_for_label }}">کد ملی:</label>
+            {{ form.national_id }}
+            {% if form.national_id.errors %}
+            {% for error in form.national_id.errors %}
+            <p class="error">{{ error }}</p>
+            {% endfor %}
+            {% endif %}
+            <label for="{{ form.medical_system_number.id_for_label }}">شماره نظام پزشکی:</label>
+            {{ form.medical_system_number }}
+            {% if form.medical_system_number.errors %}
+            {% for error in form.medical_system_number.errors %}
+            <p class="error">{{ error }}</p>
+            {% endfor %}
+            {% endif %}
+            <br>
+            <br>
+            <button class="btn btn-netcopy_net">ذخیره تغییرات</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    jalaliDatepicker.startWatch();
+
+    const inputFile = document.getElementById('profile_image_input');
+    const previewImage = document.getElementById('profile_image_preview');
+    inputFile.addEventListener('change', function () {
+        const file = this.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                previewImage.src = e.target.result;
+            }
+            reader.readAsDataURL(file);
+        }
+    }); 
+</script>
+{% endblock %}

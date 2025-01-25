@@ -1,0 +1,50 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}
+تکمیل دریافت مشاوره
+{% endblock %}
+
+{% block appointment %}
+<div class="container-fluid py-5">
+    <div class="container">
+        <div class="row gx-5">
+            <div class="col-lg-6 mb-5 mb-lg-0">
+                <div class="mb-4">
+                    <h5 class="d-inline-block text-primary text-uppercase border-bottom border-5">تکمیل دریافت مشاوره</h5>
+                    <h1 class="display-4">قدم نهایی دریافت مشاوره<h1>
+                </div>
+                <p class="mb-5">قبل از تکمیل دریافت مشاوره حتما زمان آن را به خوبی بررسی کنید. پیشنهاد می شود قبل از این کار <a href="{% url 'appointment_cancellation_rule' %}">قوانین و مقررات لغو مشاوره</a> را بررسی کنید. توجه داشته باشید درصورت دریافت مشاوره ها میتوانید در پنل خود، مشاوره های خود را بررسی کنید.</p>
+                <a class="btn btn-outline-primary rounded-pill py-3 px-5" href="{% url 'FAQ' %}">سوالات متداول</a>
+            </div>
+            <div class="col-lg-6">
+                <div class="bg-light text-center rounded p-5">
+                    {% if error %}
+                    <h6 class="mb-4" style="color: red;">{{ error }}</h6>
+                    {% endif %}
+                    {% if consultation.status != 'آزاد' or request.user.user_type != 'بیمار' %}
+                    <h6 class="mb-4" style="color: red;">این خدمت برای شما رزرو نخواهد شد</h6>
+                    {% endif %}
+                    <h3 class="mb-4">مشاوره {{ consultation.doctor.doctorprofile.get_expertise_display }} از دکتر {{ consultation.doctor.get_full_name }}</h3>
+                    <form method="post"> {% csrf_token %}
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <input type="text" value="تاریخ: {{ consultation.date }}" class="form-control bg-white border-0" style="height: 55px;" readonly>
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <input type="text" value="ساعت شروع گفتگو: {{ consultation.start_time }}" class="form-control bg-white border-0" style="height: 55px;" readonly>
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <input type="text" value="شاعت پایان گفتگو: {{ consultation.end_time }}" class="form-control bg-white border-0" style="height: 55px;" readonly>
+                            </div>
+                            <div class="col-12">
+                                <button class="btn btn-primary w-100 py-3" type="submit">تایید و پرداخت</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

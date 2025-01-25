@@ -1,0 +1,33 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}
+قوانین پزشکان 
+{% endblock %}
+
+{% block rule %}
+<div class="container-fluid py-5">
+    <div class="container">
+        <div class="title">
+            <i class="bi bi-list"></i>
+            <h3>قوانین پزشکان</h3>
+        </div>
+        {% for doctor_rule in doctor_rules %}
+        <div class="article">
+            <div class="article-num">
+                <i class="bi bi-x"></i>
+                <h5>ماده {{ doctor_rule.id }}: {{ doctor_rule.article }}</h5>
+            </div>
+            <div class="paragraphs">
+                {% for paragraph in doctor_rule.pdr.all %}
+                <div class="paragraph">
+                    <i class="bi bi-circle"></i>
+                    <p>{{ paragraph.content }}</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

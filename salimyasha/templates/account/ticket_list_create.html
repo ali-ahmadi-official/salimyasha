@@ -1,0 +1,70 @@
+{% extends 'base/dashboard_base.html' %}
+{% load static %}
+
+{% block title %}
+تیکت های من
+{% endblock %}
+
+{% block breadcrumb %}
+<div class="breadcrumb">
+    <ul>
+        <li><a href="{% url 'dashboard' %}">داشبورد</a></li>
+        <li><a href="{% url 'ticket_list_create' %}" class="is-active">تیکت های من</a></li>
+    </ul>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="main-content">
+    <div class="table__box">
+        <table class="table">
+            <thead role="rowgroup">
+                <tr role="row" class="title-row">
+                    <th>تیکت شما</th>
+                    <th>پاسخ ادمین</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if tickets %}
+                {% for ticket in tickets %}
+            <tr role="row">
+                <td>{{ ticket.message }}</td>
+                {% if ticket.answer %}
+                <td>{{ ticket.answer }}</td>
+                {% else %}
+                <td>ادمین به زودی پاسخ می دهد</td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+                {% else %}
+                <tr>
+                    <td colspan="2">
+                        موردی برای نمایش وجود ندارد
+                    </td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="user-info bg-white padding-30 font-size-13">
+        <form method="post"> {% csrf_token %}
+            {% if form.non_field_errors %}
+            {% for error in form.non_field_errors %}
+            <p class="error">{{ error }}</p>
+            {% endfor %}
+            {% endif %}
+            <label for="{{ form.message.id_for_label }}">تیکت شما:</label>
+            {{ form.message }}
+            {% if form.message.errors %}
+            {% for error in form.message.errors %}
+            <p class="error">{{ error }}</p>
+            {% endfor %}
+            {% endif %}
+            <br>
+            <br>
+            <button class="btn btn-netcopy_net">فرستادن تیکت</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

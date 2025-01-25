@@ -1,0 +1,28 @@
+{% extends 'base/dashboard_base.html' %}
+{% load static %}
+
+{% block title %}
+نوبت لغو شد
+{% endblock %}
+
+{% block breadcrumb %}
+<div class="breadcrumb">
+    <ul>
+        <li><a href="{% url 'dashboard' %}">داشبورد</a></li>
+        <li><a href="{% url 'patient_appointment_list' %}">نوبت های من</a></li>
+        <li><a href="{% url 'cancle_appointment' appointment.id %}" class="is-active">نوبت لغو شد</a></li>
+    </ul>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="main-content">
+    <div class="user-info bg-white padding-30 font-size-13">
+        <h2>نوبت با موفقیت لغو شد</h2>
+        <br>
+        <h3>مبلغ نوبت به کیف پول شما در سایت برای دریافت نوبت در آینده اضافه شد.</h3>
+        <br>
+        <a href="{% url 'patient_appointment_list' %}">بازگشت به نوبت های من</a></li>
+    </div>
+</div>
+{% endblock %}

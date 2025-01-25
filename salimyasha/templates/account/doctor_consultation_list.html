@@ -1,0 +1,67 @@
+{% extends 'base/dashboard_base.html' %}
+{% load static %}
+
+{% block title %}
+مشاوره های من
+{% endblock %}
+
+{% block breadcrumb %}
+<div class="breadcrumb">
+    <ul>
+        <li><a href="{% url 'dashboard' %}">داشبورد</a></li>
+        <li><a href="{% url 'doctor_consultation_list' %}" class="is-active">مشاوره های من</a></li>
+    </ul>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="main-content">
+    <div class="tab__box">
+        <div class="tab__items">
+            <a class="tab__item" href="{% url 'doctor_consultation_list' %}">لیست مشاوره ها</a>
+            <a class="tab__item" href="{% url 'doctor_consultation_list' %}?status=رزرو شده">مشاوره های رزرو شده</a>
+            <a class="tab__item" href="{% url 'doctor_consultation_list' %}?status=آزاد">مشاوره های آزاد</a>
+            <a class="tab__item" href="{% url 'add_consultation' %}">ایجاد مشاوره جدید</a>
+        </div>
+    </div>
+    <div class="table__box">
+        <table class="table">
+            <thead role="rowgroup">
+                <tr role="row" class="title-row">
+                    <th>شناسه</th>
+                    <th>تاریخ مشاوره</th>
+                    <th>ساعت شروع گفتگو</th>
+                    <th>ساعت پایان گفتگو</th>
+                    <th>وضعیت مشاوره</th>
+                    <th>شماره تماس بیمار</th>
+                    <th>عملیات</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for doctor_consultation in doctor_consultations %}
+                <tr role="row">
+                    <td>{{ doctor_consultation.id }}</td>
+                    <td>{{ doctor_consultation.date }}</td>
+                    <td>{{ doctor_consultation.start_time }}</td>
+                    <td>{{ doctor_consultation.end_time }}</td>
+                    <td>{{ doctor_consultation.status }}</td>
+                    {% if doctor_consultation.patient.phone_number %}
+                    <td>{{ doctor_consultation.patient.phone_number }}</td>
+                    {% else %}
+                    <td>---</td>
+                    {% endif %}
+                    <td>
+                        {% if doctor_consultation.status == 'آزاد' %}
+                        <a href="{% url 'delete_consultation' doctor_consultation.id %}" class="item-delete mlg-15" title="حذف"></a>
+                        <a href="{% url 'edit_consultation' doctor_consultation.id %}" class="item-edit " title="ویرایش"></a>
+                        {% else %}
+                        <a href="{% url 'chat' doctor_consultation.id %}" style="color: blue; border: 2px solid blue; border-radius: 3px; padding: 3px;">رفتن به چت بیمار</a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

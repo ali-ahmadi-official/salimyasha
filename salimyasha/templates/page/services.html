@@ -1,0 +1,79 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}
+خدمات سالیم یاشا
+{% endblock %}
+
+{% block services %}
+<div class="container-fluid py-5">
+    <div class="container">
+        <div class="text-center mx-auto mb-5" style="max-width: 500px;">
+            <h5 class="d-inline-block text-primary text-uppercase border-bottom border-5">خدمات</h5>
+            <h1 class="display-4">خدمات پزشکی عالی</h1>
+        </div>
+        <div class="row g-5">
+            <div class="col-lg-4 col-md-6">
+                <div
+                    class="service-item bg-light rounded d-flex flex-column align-items-center justify-content-center text-center">
+                    <div class="service-icon mb-4">
+                        <i class="fa fa-2x fa-stethoscope text-white"></i>
+                    </div>
+                    <h4 class="mb-3">دریافت نوبت</h4>
+                    <p class="m-0">به کمک سالیم یاشا شما میتوانید از بهترین پزشکان کشور نوبت بگیرید</p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div
+                    class="service-item bg-light rounded d-flex flex-column align-items-center justify-content-center text-center">
+                    <div class="service-icon mb-4">
+                        <i class="fa fa-2x fa-user-md text-white"></i>
+                    </div>
+                    <h4 class="mb-3">مشاوره آنلاین</h4>
+                    <p class="m-0">اگر به هر دلیلی امکان حضور در مطب را ندارید، مشاوره آنلاین بگیرید</p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div
+                    class="service-item bg-light rounded d-flex flex-column align-items-center justify-content-center text-center">
+                    <div class="service-icon mb-4">
+                        <i class="fa fa-2x  fa-search text-white"></i>
+                    </div>
+                    <h4 class="mb-3">یافتن بهترین ها</h4>
+                    <p class="m-0">بهترین پزشکان شهر خود را به راحتی پیدا کنید</p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div
+                    class="service-item bg-light rounded d-flex flex-column align-items-center justify-content-center text-center">
+                    <div class="service-icon mb-4">
+                        <i class="fa fa-2x fa-id-card text-white"></i>
+                    </div>
+                    <h4 class="mb-3">اطمینان از انتخاب</h4>
+                    <p class="m-0">در این سایت با بررسی نظرات مراجعه کنندگان، نوبت خود را از پزشکان شناخته شده بگیرید</p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div
+                    class="service-item bg-light rounded d-flex flex-column align-items-center justify-content-center text-center">
+                    <div class="service-icon mb-4">
+                        <i class="fa fa-2x fa-eye text-white"></i>
+                    </div>
+                    <h4 class="mb-3">دیده شوید</h4>
+                    <p class="m-0">سالیم یاشا فرصتی برای بهتر دیده شدن پزشکان است!</p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div
+                    class="service-item bg-light rounded d-flex flex-column align-items-center justify-content-center text-center">
+                    <div class="service-icon mb-4">
+                        <i class="fa fa-2x fa-bars text-white"></i>
+                    </div>
+                    <h4 class="mb-3">همگام با برنامه شما</h4>
+                    <p class="m-0">پزشکان میتوانند با استفاده از الگو های پنل خود، برنامه نوبت دهی سریع را به بیماران نمایش دهند</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

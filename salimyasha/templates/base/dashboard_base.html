@@ -1,0 +1,113 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="{% static 'img/BB.png' %}" rel="icon">
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+    {% block style %}
+
+    {% endblock %}
+    <title>
+        {% block title %}
+
+        {% endblock %}
+    </title>
+</head>
+
+<body>
+    <div class="sidebar__nav border-top border-left  ">
+        <span class="bars d-none padding-0-18"></span>
+        <div class="profile__info border cursor-pointer text-center">
+            <div class="avatar__img">
+                {% if user.profile_image %}
+                <img src="{{ user.profile_image.url }}" class="avatar___img" id="profile_image_preview">
+                {% else %}
+                <img src="{% static 'img/profile.jpg' %}" class="avatar___img" id="profile_image_preview">
+                {% endif %}
+                <input type="file" accept="image/*" class="hidden avatar-img__input">
+                <div class="v-dialog__container" style="display: block;"></div>
+                <div class="box__camera default__avatar"></div>
+            </div>
+            <span class="profile__name">{{ user.get_full_name }}</span>
+        </div>
+
+        <ul>
+            <li class="item-li i-dashboard {% if request.path == '/account/dashboard/' %} is-active {% endif %}"><a
+                    href="{% url 'dashboard' %}">داشبورد</a></li>
+            {% if user.doctorprofile.id and user.user_type == 'دکتر' %}
+            <li class="item-li i-users {% if '/account/doctor-profile/' in request.path %} is-active {% endif %}">
+                <a href="{% url 'doctor_profile' user.doctorprofile.id %}">پروفایل من</a>
+            </li>
+            {% elif user.patientprofile.id and user.user_type == 'بیمار' %}
+            <li class="item-li i-users {% if '/account/doctor-profile/' in request.path %} is-active {% endif %}">
+                <a href="{% url 'patient_profile' user.patientprofile.id %}">پروفایل من</a>
+            </li>
+            {% else %}
+            {% if user.user_type == 'دکتر' %}
+            <li
+                class="item-li i-users {% if request.path == '/account/doctor-create-profile/' %} is-active {% endif %}">
+                <a href="{% url 'doctor_create_profile' %}">ایجاد پروفایل</a>
+            </li>
+            {% else %}
+            <li
+                class="item-li i-users {% if request.path == '/account/doctor-create-profile/' %} is-active {% endif %}">
+                <a href="{% url 'patient_create_profile' %}">ایجاد پروفایل</a>
+            </li>
+            {% endif %}
+            {% endif %}
+            {% if user.user_type == 'دکتر' %}
+            <li class="item-li i-user__inforamtion {% if request.path == '/account/doctor-appointment-list/' %} is-active {% endif %}"><a href="{% url 'doctor_appointment_list' %}">نوبت های من</a></li>
+            {% else %}
+            <li class="item-li i-user__inforamtion {% if request.path == '/account/patient-appointment-list/' %} is-active {% endif %}"><a href="{% url 'patient_appointment_list' %}">نوبت های من</a></li>
+            {% endif %}
+            {% if user.user_type == 'دکتر' %}
+            <li class="item-li i-courses {% if request.path == '/account/doctor-consultation-list/' %} is-active {% endif %}"><a href="{% url 'doctor_consultation_list' %}">مشاوره های من</a></li>
+            {% else %}
+            <li class="item-li i-courses {% if request.path == '/account/patient-consultation-list/' %} is-active {% endif %}"><a href="{% url 'patient_consultation_list' %}">مشاوره های من</a></li>
+            {% endif %}
+            <li class="item-li i-tickets"><a href="{% url 'ticket_list_create' %}"> تیکت های من</a></li>
+            </li>
+        </ul>
+
+    </div>
+
+    <div class="content">
+        <div class="header d-flex item-center bg-white width-100 border-bottom padding-12-30">
+            <div class="header__right d-flex flex-grow-1 item-center">
+                <span class="bars"></span>
+                <a href="{% url 'home' %}" style="margin-right: 10px;">
+                    <h3>سالیم یاشا</h3>
+                </a>
+            </div>
+            <div class="header__left d-flex flex-end item-center margin-top-2">
+                {% if user.user_type == 'بیمار' %}
+                <span class="account-balance font-size-12 margin-15">موجودی : <span>{% if user.patientprofile.inventory %} {{ user.patientprofile.inventory }} {% else %} 0 {% endif %}</span> ریال</span>
+                {% endif %}
+                <form method="post" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="logout" style="background-color: white;"></button>
+                </form>
+            </div>
+        </div>
+
+        {% block breadcrumb %}
+
+        {% endblock %}
+
+        <div class="main-content">
+            {% block content %}
+
+            {% endblock %}
+        </div>
+    </div>
+
+    <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+    <script src="{% static 'js/js.js' %}"></script>
+</body>
+
+</html>

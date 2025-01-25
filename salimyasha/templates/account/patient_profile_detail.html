@@ -1,0 +1,76 @@
+{% extends 'base/dashboard_base.html' %}
+{% load static %}
+
+{% block title %}
+پروفایل من
+{% endblock %}
+
+{% block breadcrumb %}
+<div class="breadcrumb">
+    <ul>
+        <li><a href="{% url 'dashboard' %}">داشبورد</a></li>
+        <li><a href="{% url 'patient_profile' user.patientprofile.id %}" class="is-active">پروفایل من</a></li>
+    </ul>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="main-content">
+    <div class="user-info bg-white padding-30 font-size-13">
+        <div>
+            {% if object.account_verification %}
+            <h3>اطلاعات هویتی <span style="color: green;">(تایید شده)</span>:</h3>
+            {% else %}
+            <h3>اطلاعات هویتی <span style="color: red;">(تایید نشده)</span>:</h3>
+            {% endif %}
+            <div class="profile__info border text-center">
+                <div class="avatar__img">
+                    {% if user.profile_image %}
+                    <img src="{{ user.profile_image.url }}" class="avatar___img" id="profile_image_preview">
+                    {% else %}
+                    <img src="{% static 'img/profile.jpg' %}" class="avatar___img" id="profile_image_preview">
+                    {% endif %}
+                </div>
+                <span class="profile__name">{{ user.get_full_name }}</span>
+            </div>
+            <label>نام:</label>
+            <input class="text" value="{{ user.first_name }}" readonly>
+            <label>نام خانوادگی:</label>
+            <input class="text" value="{{ user.last_name }}" readonly>
+            <label>تاریخ تولد <span style="color: blue;">(منتشر نمی شود)</span>:</label>
+            <input class="text" value="{{ object.birth_date }}" readonly>
+            <label>کد ملی <span style="color: blue;">(منتشر نمی شود)</span>:</label>
+            <input class="text" value="{{ object.national_id }}" readonly>
+            <br>
+            <br>
+            <a class="btn btn-netcopy_net" href="{% url 'edit_profile2' %}" style="color: white;">ویرایش پروفایل</a>
+        </div>
+    </div>
+
+    <div class="user-info bg-white padding-30 font-size-13">
+        <div>
+            <h3>اطلاعات کاربری <span style="color: blue;">(منتشر نمی شود)</span>:</h3>
+            <br>
+            <label>نام کاربری:</label>
+            <input class="text" value="{{ user.username }}" readonly>
+            {% if user.phone_number_verification %}
+            <label>شماره تلفن <span style="color: green;">(تایید شده)</span>:</label>
+            <input class="text" value="{{ user.phone_number }}" readonly>
+            {% else %}
+            <label>شماره تلفن <span style="color: red;">(تایید نشده)</span>:</label>
+            <input class="text" value="{{ user.phone_number }}" readonly>
+            {% endif %}
+            {% if user.email %}
+            <label>ایمیل:</label>
+            <input class="text" value="{{ user.email }}" readonly>
+            {% else %}
+            <label>ایمیل:</label>
+            <input class="text" value="ایمیلی وارد نشده است!" readonly>
+            {% endif %}
+            <br>
+            <br>
+            <a class="btn btn-netcopy_net" href="{% url 'edit_user' user.id %}" style="color: white;">ویرایش اطلاعات کاربری</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

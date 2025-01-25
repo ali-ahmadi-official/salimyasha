@@ -1,0 +1,72 @@
+{% extends 'base/dashboard_base.html' %}
+{% load static %}
+
+{% block title %}
+نوبت های من
+{% endblock %}
+
+{% block breadcrumb %}
+<div class="breadcrumb">
+    <ul>
+        <li><a href="{% url 'dashboard' %}">داشبورد</a></li>
+        <li><a href="{% url 'patient_appointment_list' %}" class="is-active">نوبت های من</a></li>
+    </ul>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="main-content">
+    <div class="table__box">
+        <table class="table">
+            <thead role="rowgroup">
+                <tr role="row" class="title-row">
+                    <th>شناسه</th>
+                    <th>تاریخ نوبت</th>
+                    <th>ساعت نوبت</th>
+                    <th>تخصص نوبت</th>
+                    <th>نام پزشک</th>
+                    <th>نام مطب</th>
+                    <th>آدرس مطب</th>
+                    <th>وضعیت</th>
+                    <th>عملیات</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for patient_appointment in patient_appointments %}
+                <tr role="row">
+                    <td>{{ patient_appointment.id }}</td>
+                    <td>{{ patient_appointment.date }}</td>
+                    <td>{{ patient_appointment.start_time }}</td>
+                    <td>{{ patient_appointment.doctor.doctorprofile.get_expertise_display }}</td>
+                    <td>{{ patient_appointment.doctor.get_full_name }}</td>
+                    <td>{{ patient_appointment.doctor.clinic.name }}</td>
+                    <td>{{ patient_appointment.doctor.clinic.address }}</td>
+                    <td>{{ patient_appointment.status }}</td>
+                    {% if patient_appointment.status == 'رزرو شده' %}
+                    {% if patient_appointment.cancle %}
+                    <td>
+                        <a href="{% url 'cancle_appointment' patient_appointment.id %}" style="color: red; border: 2px solid red; border-radius: 3px; padding: 3px;">لغو نوبت</a>
+                    </td>
+                    {% else %}
+                    <td>
+                        ---
+                    </td>
+                    {% endif %}
+                    {% else %}
+                    {% if patient_appointment.appointmentcomment %}
+                    <td>
+                        ---
+                    </td>
+                    {% else %}
+                    <td>
+                        <a href="{% url 'add_appointmen_comment' patient_appointment.id %}" style="color: green; border: 2px solid green; border-radius: 3px; padding: 3px;">نظر دهی</a>
+                    </td>
+                    {% endif %}
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

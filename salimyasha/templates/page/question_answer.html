@@ -1,0 +1,66 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}
+سوالات متداول
+{% endblock %}
+
+{% block FAQ %}
+<div class="container-fluid py-5">
+    <div class="container">
+        <div class="title">
+            <i class="bi bi-list"></i>
+            <h3>سوالات بیماران</h3>
+        </div>
+
+        <section class="faq-parswp">
+            {% for question_answer_patient in question_answer_patients %}
+            <div class="faq-one">
+                <h5 class="faq-page">{{ question_answer_patient.question }}</h5>
+                <div class="faq-body">
+                    <p>
+                        {{ question_answer_patient.answer }}
+                    </p>
+                </div>
+            </div>
+            <hr class="hr-line">
+            {% endfor %}
+        </section>
+
+        <div class="title">
+            <i class="bi bi-list"></i>
+            <h3>سوالات پزشکان</h3>
+        </div>
+
+        <section class="faq-parswp">
+            {% for question_answer_doctor in question_answer_doctors %}
+            <div class="faq-one">
+                <h5 class="faq-page">{{ question_answer_doctor.question }}</h5>
+                <div class="faq-body">
+                    <p>
+                        {{ question_answer_doctor.answer }}
+                    </p>
+                </div>
+            </div>
+            <hr class="hr-line">
+            {% endfor %}
+        </section>
+    </div>
+</div>
+
+<script>
+    var faq = document.getElementsByClassName("faq-page");
+    var i;
+    for (i = 0; i < faq.length; i++) {
+        faq[i].addEventListener("click", function () {
+            this.classList.toggle("active");
+            var body = this.nextElementSibling;
+            if (body.style.display === "block") {
+                body.style.display = "none";
+            } else {
+                body.style.display = "block";
+            }
+        });
+    }
+</script>
+{% endblock %}
